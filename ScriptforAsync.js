@@ -1,17 +1,26 @@
-fetch('https://restcountries.eu/rest/v2/all').then((data)=>{
-    return data.json();
-}).then(data=> ShowCountries(data))
-.catch((error)=>{
-    console.log("Error encountred while fetching the countries");
-});
+async function getCountries()           ////Async await function to fetch the countries data
+{
+    try {
+        var url='https://restcountries.eu/rest/v2/all';
+        var response=await fetch(url);
+        console.log(response);
+        var result= await response.json();
+        ShowCountries(result);
+        
+    } catch (error) {
+        console.log(error);
+    }
+   
 
-function ShowCountries(Countries)
+}
+getCountries();
+
+function ShowCountries(Countries)  ////////////Showing the countries in Page Dynamically
 {
     var maindiv=document.createElement("div");
     maindiv.className="container";
     maindiv.id="ContainerDiv";
 
-    console.log(Countries.length);
     var card=[],Countryname=[],CountryImage=[],capital=[],CountryCode=[],Region=[],weather=[],weathername=[];
     var column=[],row=[];
     for (var j = 0; j <1; j++) {    
@@ -25,7 +34,6 @@ function ShowCountries(Countries)
 
     card[i]=document.createElement("div");
     card[i].className="card";
-//    card[i].setAttribute("style","width: 18rem");
   
 
     Countryname[i]=document.createElement("div");
@@ -70,25 +78,34 @@ function ShowCountries(Countries)
 
     document.body.appendChild(maindiv);
     console.log(Countries);
-    for (let i = 0; i < Countries.length; i++) {
-        weather[i].addEventListener('click',()=>{
-            var cityname=Countries[i].capital;
+    
+    
+    async function GetTemperature( cityname, countryname) { ///fetching the temperature fro the county caital using async await
+        
         var apikey='d99e7c34bf6c24b2ea60e742ab8a93d8';
         var url="https://api.openweathermap.org/data/2.5/weather?q="+cityname+"&appid="+apikey;
-        fetch(url)
-        .then((data)=>{
-            return data.json();
-        }).then((result)=>{
-        console.log(result);
-        let temper=result.main.temp -273.15 ;
-        alert("The temperature in "+ Countries[i].capital+", Capital city of "+Countries[i].name+" is "+temper+"⁰ Celsius.");
-        }).catch((error)=>
-        {
-            console.log("ERROR");
-        });
-        })
-        
+        try {
+            var tempfetch= await fetch(url);
+            var response= await tempfetch.json();
+            console.log(response);
+            console.log(response.main.temp);
+            let tempera=response.main.temp-273.15;
+            alert("The temperature in "+ cityname+", Capital city of "+countryname+" is "+tempera+"⁰ Celsius.");
+
+            
+        } catch (error) {
+            console.log(error);
+        }
     }
+
+
+    for (let i = 0; i < Countries.length; i++) {
+            weather[i].addEventListener('click',()=>
+            {
+                GetTemperature(Countries[i].capital,Countries[i].name);
+            })
+            
+        }
 }
 
 
