@@ -85,6 +85,7 @@ function ShowCountries(Countries)
         }).catch((error)=>
         {
             console.log("ERROR");
+            alert("error occured")
         });
         })
         
