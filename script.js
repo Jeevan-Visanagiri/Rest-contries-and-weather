@@ -84,8 +84,8 @@ function ShowCountries(Countries)
         alert("The temperature in "+ Countries[i].capital+", Capital city of "+Countries[i].name+" is "+temper+"⁰ Celsius.");
         }).catch((error)=>
         {
-            console.log("ERROR");
-            alert("error occured")
+            console.log(error);
+            alert("error occured");
         });
         })
         

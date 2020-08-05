@@ -1,4 +1,4 @@
-// api key http://omdbapi.com/?apikey=4c7fa3da&t=super%20man
+// api key https://omdbapi.com/?apikey=4c7fa3da&t=super%20man
 
 
 
@@ -57,17 +57,23 @@ searchbox.addEventListener("keyup",()=>
 async function GetMovieDateils(moviename)
 {
     console.log(moviename);
-    var url= 'http://omdbapi.com/?apikey=4c7fa3da&t='+moviename;
+    var url= 'https://omdbapi.com/?apikey=4c7fa3da&t='+moviename;
     try {
         var request= await fetch(url);
     var response = await request.json();
     console.log(response);
+    if (response.Response=="True")
+    {
+        console.log(response.Response);
         movietitle.innerText=response.Title;
         movieposter.setAttribute("src",response.Poster);
         IMDBrating.innerHTML="IMDB rating : "+response.imdbRating;
         Genre.innerHTML="Genre :"+response.Genre;
         Language.innerHTML="Language :"+response.Language;
-
+    }
+    else{
+        alert("Incorrect Movie name entered.")
+    }
     } catch (error) {
         console.log(error);
         alert("error occured");

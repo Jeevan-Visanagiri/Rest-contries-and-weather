@@ -95,7 +95,7 @@ function ShowCountries(Countries)  ////////////Showing the countries in Page Dyn
             
         } catch (error) {
             console.log(error);
-            alert("error occured")
+            alert("error occured");
         }
     }
 
